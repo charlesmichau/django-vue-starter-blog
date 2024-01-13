@@ -17,6 +17,11 @@
             >Category</router-link
           >
           <router-link
+            to="/create-post"
+            class="mx-2 font-sans font-medium hover:underline hover:text-teal-700"
+            >Create post</router-link
+          >
+          <router-link
             to="/tags"
             class="mx-2 font-sans font-medium hover:underline hover:text-teal-700"
             >Tag</router-link
@@ -67,6 +72,11 @@
                 to="/categories"
                 class="pl-4 text-xl font-sans font-medium hover:underline hover:text-teal-700"
                 >Category</router-link
+              >
+              <router-link
+                to="/create-post"
+                class="pl-4 text-xl font-sans font-medium hover:underline hover:text-teal-700"
+                >Create post</router-link
               >
               <router-link
                 to="/tags"

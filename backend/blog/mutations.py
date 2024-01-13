@@ -61,6 +61,27 @@ class UpdateUserProfile(graphene.Mutation):
         return UpdateUserProfile(user=user)
 
 
+class CreatePost(graphene.Mutation):
+    post = graphene.Field(types.PostType)
+
+    class Arguments:
+        title = graphene.String(required=True)
+        content = graphene.String(required=True)
+        user_id = graphene.ID(required=True)
+        # featured_image = graphene.
+
+    def mutate(self, info, title, content, user_id):
+        post = models.Post(
+            title=title,
+            content=content,
+            user_id=user_id,
+            # post.featured_image = featured_image
+        )
+        post.save()
+
+        return CreatePost(post=post)
+
+
 class CreateComment(graphene.Mutation):
     comment = graphene.Field(types.CommentType)
 
@@ -128,6 +149,7 @@ class Mutation(graphene.ObjectType):
 
     create_user = CreateUser.Field()
     create_comment = CreateComment.Field()
+    create_post = CreatePost.Field()
 
     update_post_like = UpdatePostLike.Field()
     update_comment_like = UpdateCommentLike.Field()

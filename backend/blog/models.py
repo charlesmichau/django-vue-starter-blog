@@ -25,11 +25,11 @@ class Site(models.Model):
 class User(AbstractUser):
     avatar = models.ImageField(
         upload_to='users/avatars/%Y/%m/%d/',
-        default='users/avatars/default.jpg'
+        default='users/avatars/default.jpg', blank=True
     )
-    bio = models.TextField(max_length=500, null=True)
-    location = models.CharField(max_length=30, null=True)
-    website = models.CharField(max_length=100, null=True)
+    bio = models.TextField(max_length=500, blank=True, null=True)
+    location = models.CharField(max_length=30, blank=True, null=True)
+    website = models.CharField(max_length=100, blank=True, null=True)
     joined_date = models.DateField(auto_now_add=True)
 
     class Meta:
@@ -74,20 +74,21 @@ class Post(models.Model):
     slug = models.SlugField()
     content = RichTextField()
     featured_image = models.ImageField(
-        upload_to='posts/featured_images/%Y/%m/%d/')
+        upload_to='posts/featured_images/%Y/%m/%d/', blank=True)
     is_published = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True)
     modified_at = models.DateField(auto_now=True)
 
     # Each post can receive likes from multiple users, and each user can like multiple posts
-    likes = models.ManyToManyField(User, related_name='post_like')
+    likes = models.ManyToManyField(
+        User, related_name='post_like', default=None, blank=True)
 
     # Each post belong to one user and one category.
     # Each post has many tags, and each tag has many posts.
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True)
-    tag = models.ManyToManyField(Tag)
+    tag = models.ManyToManyField(Tag, default=None)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:

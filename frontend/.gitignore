@@ -2,6 +2,8 @@
 node_modules
 /dist
 
+# Blog content
+public/*
 
 # local env files
 .env.local

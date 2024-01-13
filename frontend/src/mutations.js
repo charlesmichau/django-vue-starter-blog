@@ -110,3 +110,14 @@ export const UPDATE_USER_PROFILE = gql`
     }
   }
 `;
+
+export const SUBMIT_POST = gql`
+  mutation ($title: String!, $content: String!, $userID: ID!) {
+    createPost(title: $title, content: $content, userId: $userID) {
+      post {
+        title
+        content
+      }
+    }
+  }
+`;
