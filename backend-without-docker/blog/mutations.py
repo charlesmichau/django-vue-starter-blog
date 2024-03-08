@@ -101,6 +101,25 @@ class CreateComment(graphene.Mutation):
         return CreateComment(comment=comment)
 
 
+class CreateHighlight(graphene.Mutation):
+    highlight = graphene.Field(types.HighlightType)
+
+    class Arguments:
+        text = graphene.String(required=True)
+        post_id = graphene.ID(required=True)
+        property1 = graphene.String(required=False)
+
+    def mutate(self, info, text, post_id, property1=''):
+        highlight = models.Highlight(
+            text=text,
+            post_id=post_id,
+            property1=property1,
+        )
+        highlight.save()
+
+        return CreateHighlight(highlight=highlight)
+
+
 class UpdatePostLike(graphene.Mutation):
     post = graphene.Field(types.PostType)
 
@@ -150,6 +169,7 @@ class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
     create_comment = CreateComment.Field()
     create_post = CreatePost.Field()
+    create_highlight = CreateHighlight.Field()
 
     update_post_like = UpdatePostLike.Field()
     update_comment_like = UpdateCommentLike.Field()

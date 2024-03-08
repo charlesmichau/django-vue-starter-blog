@@ -127,3 +127,10 @@ class Comment(models.Model):
 
     def get_number_of_likes(self):
         return self.likes.count()
+
+
+class Highlight(models.Model):
+    text = models.CharField(max_length=200)
+    created_at = models.DateField(auto_now_add=True)
+    property1 = models.CharField(max_length=100, blank=True, null=True)
+    post = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True)

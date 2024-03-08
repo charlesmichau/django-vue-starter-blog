@@ -41,3 +41,8 @@ class CommentType(DjangoObjectType):
 
     def resolve_number_of_likes(self, info):
         return self.get_number_of_likes()
+
+
+class HighlightType(DjangoObjectType):
+    class Meta:
+        model = models.Highlight

@@ -14,19 +14,25 @@
 
     <!-- If the user is authenticated -->
     <div v-else>
+
+      <!-- If post is submitted -->
       <div v-if="this.postSubmitSuccess" class="">
         <p class="font-bold text-2xl">Thank you ! 🎉</p>
         Your comment will show up here after is has been approved.
       </div>
+
+      <!-- If post is being created -->
       <div v-else class="">
         <p class="font-bold text-2xl">Write your post below:</p>
-        <form action="POST" @submit.prevent="createPost">
+        <p>Object: {{this.title}} - {{this.selectedObject}}</p>
+
+        <form action="POST" @submit.prevent="createPost" @mouseup="handleSelection">
           <textarea
             type="text"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-300 focus:ring-opacity-50"
-            rows="5"
+            rows="1"
             v-model="title"
-            placeholder="Title"
+            placeholder= "Title"
           />
 
           <textarea
@@ -40,9 +46,21 @@
           <button
             class="mt-4 w-full bg-teal-500 hover:bg-teal-700 focus:ring focus:ring-teal-100 text-white py-2 rounded-md text-lg tracking-wide"
           >
-            Submit Post
-          </button>
-        </form>
+
+          Submit Post
+        </button>
+      </form>
+
+      <form v-if="this.selectedObject" @submit.prevent="submitForm">
+        <label for="property1">Property 1:</label>
+        <input v-model="this.selectedObject.property1" id="property1" />
+
+        <label for="property2">Property 2:</label>
+        <input v-model="this.selectedObject.property2" id="property2" />
+
+        <button type="submit">Submit</button>
+      </form>
+
       </div>
     </div>
   </div>
@@ -71,6 +89,7 @@ export default {
       },
       userID: null,
       postSubmitSuccess: false,
+      selectedObject: null,
     };
   },
 
@@ -99,6 +118,15 @@ export default {
           this.error = error;
           alert("E " + error);
         });
+    },
+    handleSelection() {
+      console.log("Logging call to handleSelection");
+      const selectedText = window.getSelection().toString();
+      if (selectedText) {
+        this.selectedObject = { text: selectedText, property1: "", property2: "" };
+      } else {
+        this.selectedObject = null;
+      }
     },
   },
 };
